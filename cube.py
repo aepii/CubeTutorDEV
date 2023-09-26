@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Cube:
     """
         A standard Cube object is represented by six faces:
@@ -30,44 +33,44 @@ class Cube:
     # Sets the front face of a Cube to a given matrix. Otherwise, defaults to a specific matrix if None is provided.
     def setFront(self, entry=None):
         if entry is None:
-            self.Front = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+            self.Front = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
         else:
-            self.Front = entry
+            self.Front = np.array(entry)
 
     # Sets the back face of a Cube to a given matrix. Otherwise, defaults to a specific matrix if None is provided.
     def setBack(self, entry=None):
         if entry is None:
-            self.Back = [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
+            self.Back = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
         else:
-            self.Back = entry
+            self.Back = np.array(entry)
 
     # Sets the left face of a Cube to a given matrix. Otherwise, defaults to a specific matrix if None is provided.
     def setLeft(self, entry=None):
         if entry is None:
-            self.Left = [[2, 2, 2], [2, 2, 2], [2, 2, 2]]
+            self.Left = np.array([[2, 2, 2], [2, 2, 2], [2, 2, 2]])
         else:
-            self.Left = entry
+            self.Left = np.array(entry)
 
     # Sets the right face of a Cube to a given matrix. Otherwise, defaults to a specific matrix if None is provided.
     def setRight(self, entry=None):
         if entry is None:
-            self.Right = [[3, 3, 3], [3, 3, 3], [3, 3, 3]]
+            self.Right = np.array([[3, 3, 3], [3, 3, 3], [3, 3, 3]])
         else:
-            self.Right = entry
+            self.Right = np.array(entry)
 
     # Sets the upper face of a Cube to a given matrix. Otherwise, defaults to a specific matrix if None is provided.
     def setUpper(self, entry=None):
         if entry is None:
-            self.Upper = [[4, 4, 4], [4, 4, 4], [4, 4, 4]]
+            self.Upper = np.array([[4, 4, 4], [4, 4, 4], [4, 4, 4]])
         else:
-            self.Upper = entry
+            self.Upper = np.array(entry)
 
     # Sets the lower face of a Cube to a given matrix. Otherwise, defaults to a specific matrix if None is provided.
     def setLower(self, entry=None):
         if entry is None:
-            self.Lower = [[5, 5, 5], [5, 5, 5], [5, 5, 5]]
+            self.Lower = np.array([[5, 5, 5], [5, 5, 5], [5, 5, 5]])
         else:
-            self.Lower = entry
+            self.Lower = np.array(entry)
 
     def getFront(self):
         return self.Front
@@ -88,13 +91,13 @@ class Cube:
         return self.Lower
 
     def __repr__(self):
-        return (f"Cube Object\n"
-                f"Front: {self.Front}\n"
-                f"Back: {self.Back}\n"
-                f"Left: {self.Left}\n"
-                f"Right: {self.Right}\n"
-                f"Up: {self.Upper}\n"
-                f"Down: {self.Lower}"
+        return (f"Cube Object: {id(self)}\n"
+                f"Front:\n{self.Front}\n"
+                f"Back:\n{self.Back}\n"
+                f"Left:\n{self.Left}\n"
+                f"Right:\n{self.Right}\n"
+                f"Up:\n{self.Upper}\n"
+                f"Down:\n{self.Lower}"
                 )
 
     def color_visualization(self):
@@ -117,10 +120,10 @@ class Cube:
             'Down': self.Lower
         }
 
-        result = f"Cube Object\n"
+        result = f"Cube Object: {id(self)}\n"
         for face, matrix in faces.items():
-            colors = [[value_to_color[val] for val in row] for row in matrix]
-            result += f"{face}: {colors}\n"
+            colors = np.array([[value_to_color[val] for val in row] for row in matrix])
+            result += f"{face}:\n{colors}\n"
 
         return result
 
@@ -177,237 +180,3 @@ class CubeBuilder:
         else:
             self.Cube.setLower()
         return self
-
-
-from collections import deque
-
-
-class CubeMoves:
-    def __init__(self):
-        self.moves = deque()
-
-    def add_move(self, move):
-        self.moves.append(move)
-
-        return self
-
-    def execute_moves(self, cube, solve=True):
-
-        if solve is True:
-            while self.moves:
-                move = self.moves.popleft()
-                self._perform_move(cube, move)
-
-        else:
-            if self.moves:
-                move = self.moves.popleft()
-                self._perform_move(cube, move)
-
-    def _perform_move(self, cube, move):
-        faces = ['F', 'B', 'L', 'R', 'U', 'D']
-
-        if "'" not in move and "2" not in move:  # 90 degrees clockwise
-            face = move[0]
-            if face in faces:
-                self._rotate_cube(cube, face, clockwise=True)
-        elif "'" in move:  # 90 degrees counterclockwise
-            face = move[0]
-            if face in faces:
-                self._rotate_cube(cube, face, clockwise=False)
-        elif "2" in move:  # 180 degrees clockwise
-            face = move[0]
-            if face in faces:
-                self._rotate_cube(cube, face, clockwise=True, double=True)
-
-    @staticmethod
-    def _rotate_cube(cube, face, clockwise=False, double=False):
-
-        if face == "U":
-            front_prev = cube.getFront()
-            left_prev = cube.getLeft()
-            back_prev = cube.getBack()
-            right_prev = cube.getRight()
-
-            upper_prev = cube.getUpper()
-
-            upper_cur = cube.setUpper([
-                [upper_prev[2][0], upper_prev[1][0], upper_prev[0][0]],
-                [upper_prev[2][1], upper_prev[1][1], upper_prev[0][1]],
-                [upper_prev[2][2], upper_prev[1][2], upper_prev[0][2]]
-            ])
-
-            front_cur = cube.setFront([right_prev[0], front_prev[1], front_prev[2]])
-            left_cur = cube.setLeft([front_prev[0], left_prev[1], left_prev[2]])
-            back_cur = cube.setBack([left_prev[0], back_prev[1], back_prev[2]])
-            right_cur = cube.setRight([back_prev[0], right_prev[1], right_prev[2]])
-
-        elif face == "D":
-            front_prev = cube.getFront()
-            left_prev = cube.getLeft()
-            back_prev = cube.getBack()
-            right_prev = cube.getRight()
-
-            lower_prev = cube.getLower()
-
-            lower_cur = cube.setLower([
-                [lower_prev[2][0], lower_prev[1][0], lower_prev[0][0]],
-                [lower_prev[2][1], lower_prev[1][1], lower_prev[0][1]],
-                [lower_prev[2][2], lower_prev[1][2], lower_prev[0][2]]
-            ])
-
-            front_cur = cube.setFront([front_prev[0], front_prev[1], left_prev[2]])
-            left_cur = cube.setLeft([left_prev[0], left_prev[1], back_prev[2]])
-            back_cur = cube.setBack([back_prev[0], back_prev[1], right_prev[2]])
-            right_cur = cube.setRight([right_prev[0], right_prev[1], front_prev[2]])
-
-        elif face == "L":
-            front_prev = cube.getFront()
-            lower_prev = cube.getLower()
-            back_prev = cube.getBack()
-            upper_prev = cube.getUpper()
-
-            left_prev = cube.getLeft()
-
-            left_cur = cube.setLeft([
-                [left_prev[2][0], left_prev[1][0], left_prev[0][0]],
-                [left_prev[2][1], left_prev[1][1], left_prev[0][1]],
-                [left_prev[2][2], left_prev[1][2], left_prev[0][2]]
-            ])
-
-            front_cur = cube.setFront([
-                [upper_prev[0][0], front_prev[0][1], front_prev[0][2]],
-                [upper_prev[1][0], front_prev[1][1], front_prev[1][2]],
-                [upper_prev[2][0], front_prev[2][1], front_prev[2][2]]
-            ])
-
-            lower_cur = cube.setLower([
-                [front_prev[0][0], lower_prev[0][1], lower_prev[0][2]],
-                [front_prev[1][0], lower_prev[1][1], lower_prev[1][2]],
-                [front_prev[2][0], lower_prev[2][1], lower_prev[2][2]]
-            ])
-
-            back_cur = cube.setBack([
-                [back_prev[0][0], back_prev[0][1], lower_prev[2][0]],
-                [back_prev[1][0], back_prev[1][1], lower_prev[1][0]],
-                [back_prev[2][0], back_prev[2][1], lower_prev[0][0]]
-            ])
-
-            upper_cur = cube.setUpper([
-                [back_prev[2][2], upper_prev[0][1], upper_prev[0][2]],
-                [back_prev[1][2], upper_prev[1][1], upper_prev[1][2]],
-                [back_prev[0][2], upper_prev[2][1], upper_prev[2][2]]
-            ])
-
-        elif face == "R":
-            front_prev = cube.getFront()
-            lower_prev = cube.getLower()
-            back_prev = cube.getBack()
-            upper_prev = cube.getUpper()
-
-            right_prev = cube.getRight()
-
-            right_cur = cube.setRight([
-                [right_prev[2][0], right_prev[1][0], right_prev[0][0]],
-                [right_prev[2][1], right_prev[1][1], right_prev[0][1]],
-                [right_prev[2][2], right_prev[1][2], right_prev[0][2]]
-            ])
-
-            front_cur = cube.setFront([
-                [front_prev[0][0], front_prev[0][1], lower_prev[0][2]],
-                [front_prev[1][0], front_prev[1][1], lower_prev[1][2]],
-                [front_prev[2][0], front_prev[2][1], lower_prev[2][2]]
-            ])
-
-            lower_cur = cube.setLower([
-                [lower_prev[0][0], lower_prev[0][1], back_prev[2][0]],
-                [lower_prev[1][0], lower_prev[1][1], back_prev[1][0]],
-                [lower_prev[2][0], lower_prev[2][1], back_prev[0][0]]
-            ])
-
-            back_cur = cube.setBack([
-                [upper_prev[2][2], back_prev[0][1], back_prev[0][2]],
-                [upper_prev[1][2], back_prev[1][1], back_prev[1][2]],
-                [upper_prev[0][2], back_prev[2][1], back_prev[2][2]]
-            ])
-
-            upper_cur = cube.setUpper([
-                [upper_prev[0][0], upper_prev[0][1], front_prev[0][2]],
-                [upper_prev[1][0], upper_prev[1][1], front_prev[1][2]],
-                [upper_prev[2][0], upper_prev[2][1], front_prev[2][2]]
-            ])
-
-        elif face == "F":
-            left_prev = cube.getLeft()
-            lower_prev = cube.getLower()
-            right_prev = cube.getRight()
-            upper_prev = cube.getUpper()
-
-            front_prev = cube.getFront()
-
-            front_cur = cube.setFront([
-                [front_prev[2][0], front_prev[1][0], front_prev[0][0]],
-                [front_prev[2][1], front_prev[1][1], front_prev[0][1]],
-                [front_prev[2][2], front_prev[1][2], front_prev[0][2]]
-            ])
-
-            left_cur = cube.setLeft([
-                [left_prev[0][0], left_prev[0][1], lower_prev[0][0]],
-                [left_prev[1][0], left_prev[1][1], lower_prev[0][1]],
-                [left_prev[2][0], left_prev[2][1], lower_prev[0][2]]
-            ])
-
-            upper_cur = cube.setUpper([
-                [upper_prev[0][0], upper_prev[0][1], upper_prev[0][2]],
-                [upper_prev[1][0], upper_prev[1][1], upper_prev[1][2]],
-                [left_prev[2][2], left_prev[1][2], left_prev[0][2]]
-            ])
-
-            right_cur = cube.setRight([
-                [upper_prev[2][0], right_prev[0][1], right_prev[0][2]],
-                [upper_prev[2][1], right_prev[1][1], right_prev[1][2]],
-                [upper_prev[2][2], right_prev[2][1], right_prev[2][2]]
-            ])
-
-            lower_cur = cube.setLower([
-                [right_prev[2][0], right_prev[1][0], right_prev[0][0]],
-                [lower_prev[1][0], lower_prev[1][1], lower_prev[1][2]],
-                [lower_prev[2][0], lower_prev[2][1], lower_prev[2][2]]
-            ])
-
-        elif face == "B":
-            left_prev = cube.getLeft()
-            lower_prev = cube.getLower()
-            right_prev = cube.getRight()
-            upper_prev = cube.getUpper()
-
-            back_prev = cube.getBack()
-
-            back_cur = cube.setBack([
-                [back_prev[2][0], back_prev[1][0], back_prev[0][0]],
-                [back_prev[2][1], back_prev[1][1], back_prev[0][1]],
-                [back_prev[2][2], back_prev[1][2], back_prev[0][2]]
-            ])
-
-            left_cur = cube.setLeft([
-                [upper_prev[0][2], left_prev[0][1], left_prev[0][2]],
-                [upper_prev[0][1], left_prev[1][1], left_prev[1][2]],
-                [upper_prev[0][0], left_prev[2][1], left_prev[2][2]]
-            ])
-
-            upper_cur = cube.setUpper([
-                [right_prev[0][2], right_prev[1][2], right_prev[2][2]],
-                [upper_prev[1][0], upper_prev[1][1], upper_prev[1][2]],
-                [upper_prev[2][0], upper_prev[2][1], upper_prev[2][2]]
-            ])
-
-            right_cur = cube.setRight([
-                [right_prev[0][0], right_prev[0][1], lower_prev[2][2]],
-                [right_prev[1][0], right_prev[1][1], lower_prev[2][1]],
-                [right_prev[2][0], right_prev[2][1], lower_prev[2][0]]
-            ])
-
-            lower_cur = cube.setLower([
-                [lower_prev[0][0], lower_prev[0][1], lower_prev[0][2]],
-                [lower_prev[1][0], lower_prev[1][1], lower_prev[1][2]],
-                [left_prev[0][0], left_prev[1][0], left_prev[2][0]]
-            ])
