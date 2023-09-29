@@ -6,24 +6,14 @@ CubeTutor is an engaging Python program designed to bring the legendary Rubik's 
 
 Features:
 
-🔹 Immersive 3D Experience: Explore the Rubik's Cube in an immersive 3D space, allowing you to rotate, twist, and inspect the cube from every angle.
-
-🔹 Interactive Learning: Dive into interactive gameplay, executing moves and witnessing real-time changes on the cube, enhancing your understanding of solving strategies.
+🔹 Immersive 3D Experience: Explore the Rubik's Cube in an immersive 3D space, allowing you to inspect the cube from every angle.
 
 🔹 Customizable Moves: Input your own move sequences and watch as the cube dynamically responds, providing visual feedback for your algorithm experiments.
 
-🔹 Educational Insights: CubeTutor provides educational insights, explaining solving techniques, algorithms, and the underlying mathematics, making it an invaluable learning resource.
+Future Enhancements:
 
-🔹 User-Friendly Interface: With an intuitive interface, CubeTutor ensures both beginners and experts can navigate and enjoy the program effortlessly.
+🔹 🚀 Real-Time Cube Scanning with OpenCV: CubeTutor is gearing up for a major upgrade! In the future, you can expect the integration of OpenCV, enabling the program to capture your physical Rubik's Cube directly into the virtual environment. Watch as your real-world moves translate into the digital realm!
 
-🔹 Easy-to-Modify Codebase: The clean and well-documented Python code allows enthusiasts to customize features, implement new algorithms, and experiment with different cube variations.
+🔹 🔍 Algorithm Suggestions at Your Fingertips: CubeTutor gets even smarter! By scanning specific PLL (Permutation of the Last Layer) or OLL (Orientation of the Last Layer) configurations, CubeTutor will tap into its extensive database. It will then fetch and present you with a curated selection of algorithms sourced from leading cube algorithm websites. These algorithms will be tailored to your current cube state, providing you with multiple solving options.
 
-How to Use:
-
-Clone the Repository: Begin by cloning the CubeTutor repository to your local machine using git clone.
-
-Run the Program: Execute the Python script to launch CubeTutor, immersing yourself in the Rubik's Cube experience.
-
-Learn and Experiment: Interact with the cube using your keyboard or mouse, input custom moves, and experiment with algorithms to enhance your solving skills.
-
-CubeTutor is not just a program; it's your personalized Rubik's Cube tutor, ready to accompany you on your puzzle-solving journey. Happy Cubing! 🧠🎉
+CubeTutor is not just a tutor; it's your personal Rubik's Cube mentor, continuously evolving to provide you with the best learning and solving experience possible. Stay tuned for these exciting updates, making your cube-solving journey more interactive and educational than ever! 🌟🧩
