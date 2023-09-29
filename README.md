@@ -55,11 +55,11 @@ The `Cube` class represents a Rubik's Cube. Each face of the cube is represented
 
 The `CubeBuilder` class facilitates the construction of a `Cube` object with customizable face configurations.
 
-### Class Attributes:
+### Attributes:
 
 - **Cube**: A `Cube` object to be built or modified.
 
-### Class Methods:
+### Methods:
 
 #### `__init__(self, default=False)`
 
