@@ -2,7 +2,7 @@
 
 CubeTutor is an engaging Python program designed to bring the legendary Rubik's Cube to life in a vibrant 3D environment. Whether you're a beginner eager to learn the art of Rubik's Cube solving or an experienced enthusiast honing your skills, CubeTutor is here to guide you through the fascinating world of twisty puzzles.
 
-## Features:
+### Features:
 
 🔹 🔎 **Immersive 3D Experience:** Explore the Rubik's Cube in an immersive 3D space, allowing you to inspect the cube from every angle.
 <div align="center">
@@ -16,7 +16,7 @@ CubeTutor is an engaging Python program designed to bring the legendary Rubik's 
   
 </div>
 
-## Future Enhancements:
+### Future Enhancements:
 
 🔹 🚀 **Real-Time Cube Scanning with OpenCV:** CubeTutor is gearing up for a major upgrade! In the future, you can expect the integration of OpenCV, enabling the program to capture your physical Rubik's Cube directly into the virtual environment. Watch as your real-world moves translate into the digital realm!
 
