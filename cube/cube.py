@@ -72,24 +72,31 @@ class Cube:
         else:
             self.Lower = np.array(entry)
 
+    # Gets the front face of a Cube. Returns a matrix.
     def getFront(self):
         return self.Front
 
+    # Gets the back face of a Cube. Returns a matrix.
     def getBack(self):
         return self.Back
 
+    # Gets the left face of a Cube. Returns a matrix.
     def getLeft(self):
         return self.Left
 
+    # Gets the right face of a Cube. Returns a matrix.
     def getRight(self):
         return self.Right
 
+    # Gets the upper face of a Cube. Returns a matrix.
     def getUpper(self):
         return self.Upper
 
+    # Gets the lower face of a Cube. Returns a matrix.
     def getLower(self):
         return self.Lower
 
+    # Returns a printable representation of a Cube.
     def __repr__(self):
         return (f"Cube Object: {id(self)}\n"
                 f"Front:\n{self.Front}\n"
@@ -100,6 +107,7 @@ class Cube:
                 f"Down:\n{self.Lower}"
                 )
 
+    # Returns a printable representation of a Cube with colors representing each entry.
     def color_visualization(self):
 
         value_to_color = {
@@ -122,6 +130,7 @@ class Cube:
 
         result = f"Cube Object: {id(self)}\n"
         for face, matrix in faces.items():
+
             colors = np.array([[value_to_color[val] for val in row] for row in matrix])
             result += f"{face}:\n{colors}\n"
 
