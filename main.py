@@ -1,11 +1,13 @@
 from cube.cube import CubeBuilder
 from cube.cube_moves import CubeMoves
 
+from cube.cube_render import CubeRender
+
 import numpy as np
 import cv2
 
-def main():
 
+def main():
     cube1 = CubeBuilder() \
         .updateFront([[2, 1, 1], [0, 0, 1], [5, 2, 0]]) \
         .updateBack() \
@@ -23,16 +25,18 @@ def main():
 
     print(cube2.Cube.color_visualization())
 
-    cubeMoves = CubeMoves().add_move("F").add_move("U").add_move("D").add_move("B").add_move("D").add_move(
-        "R").add_move("L").add_move("U").add_move("F").add_move("R")
-
-    print(cubeMoves.moves)
+    cubeMoves = CubeMoves().add_moves("F").add_moves("L' B2 D' F R2 L' F2 D R D2 F2'")
 
     cubeMoves.execute_moves(cube2.Cube)
 
     print(cube2.Cube)
 
     print(cube2.Cube.color_visualization())
+
+    print(cubeMoves.history, cubeMoves.moves)
+
+    newRender = CubeRender()
+    newRender.render()
 
 
 if __name__ == "__main__":
