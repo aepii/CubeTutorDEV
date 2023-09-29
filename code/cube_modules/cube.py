@@ -26,8 +26,8 @@ class Cube:
             Initialize a Cube Object with all faces set to None.
 
             Attributes:
-            - history: A list to store the history of moves made on the cube.
-            - Front, Back, Left, Right, Upper, Lower: 3x3 matrices representing the cube faces.
+            - history: A list to store the history of moves made on the cube_modules.
+            - Front, Back, Left, Right, Upper, Lower: 3x3 matrices representing the cube_modules faces.
         """
 
         self.history = []
@@ -336,3 +336,4 @@ class CubeBuilder:
         else:
             self.Cube.setLower()
         return self
+
