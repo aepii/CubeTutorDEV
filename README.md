@@ -31,7 +31,7 @@ CubeTutor is an engaging Python program designed to bring the legendary Rubik's 
 
 *CubeTutor is not just a tutor; it's your personal Rubik's Cube mentor, continuously evolving to provide you with the best learning and solving experience possible.* 🌟🧩
 
-# This project is W.I.P. and is mostly a mock-up.
+### This project is W.I.P. and is mostly a mock-up.
 
 ### DOCUMENTATION:
 
