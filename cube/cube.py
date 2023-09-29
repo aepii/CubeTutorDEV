@@ -23,6 +23,9 @@ class Cube:
 
     # Initialize a Cube Object with all faces set to None.
     def __init__(self):
+
+        self.history = []
+
         self.Front = None
         self.Back = None
         self.Left = None
