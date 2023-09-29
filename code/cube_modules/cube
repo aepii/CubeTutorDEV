@@ -32,7 +32,7 @@ class CubeMoves:
             Executes the moves on the provided Cube object.
 
             Args:
-            - cube (Cube): The Cube object on which moves will be executed.
+            - cube_modules (Cube): The Cube object on which moves will be executed.
             - solve (bool): If True, executes moves until the deque is empty, else executes a single move.
 
             Returns:
@@ -54,7 +54,7 @@ class CubeMoves:
             Performs a single move on the provided Cube object.
 
             Args:
-            - cube (Cube): The Cube object on which the move will be performed.
+            - cube_modules (Cube): The Cube object on which the move will be performed.
             - move (str): The move to be executed.
 
             Returns:
@@ -79,11 +79,11 @@ class CubeMoves:
     @staticmethod
     def _rotate_cube(cube, face, clockwise=True, double=False):
         """
-            Rotates the cube's face either clockwise, counterclockwise, or 180 degrees based on input parameters.
+            Rotates the cube_modules's face either clockwise, counterclockwise, or 180 degrees based on input parameters.
 
             Args:
-            - cube (Cube): The Cube object on which the rotation will be performed.
-            - face (str): The face of the cube to be rotated.
+            - cube_modules (Cube): The Cube object on which the rotation will be performed.
+            - face (str): The face of the cube_modules to be rotated.
             - clockwise (bool): If True, rotates the face clockwise. If False, rotates counterclockwise.
             - double (bool): If True, rotates the face by 180 degrees.
 
