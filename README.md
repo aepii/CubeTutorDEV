@@ -1,4 +1,8 @@
 # CubeTutor
+
+### [README.md](/README.md)
+### [DOCUMENTATION.md](/DOCUMENTATION.md)
+
 ### Welcome to CubeTutor: Your Interactive Rubik's Cube Learning Companion! 🎲✨
 
 CubeTutor is an engaging Python program designed to bring the legendary Rubik's Cube to life in a vibrant 3D environment. Whether you're a beginner eager to learn the art of Rubik's Cube solving or an experienced enthusiast honing your skills, CubeTutor is here to guide you through the fascinating world of twisty puzzles.
