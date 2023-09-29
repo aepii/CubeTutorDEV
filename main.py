@@ -25,7 +25,7 @@ def main():
 
     print(cube2.Cube.color_visualization())
 
-    cubeMoves = CubeMoves().add_moves("F").add_moves("L' B2 D' F R2 L' F2 D R D2 F2'")
+    cubeMoves = CubeMoves().add_moves("L' B2 D' F R2 L' F2 D R D2 F2'")
 
     cubeMoves.execute_moves(cube2.Cube)
 
@@ -35,7 +35,7 @@ def main():
 
     print(cubeMoves.history, cubeMoves.moves)
 
-    newRender = CubeRender()
+    newRender = CubeRender(cube2.Cube)
     newRender.render()
 
 
