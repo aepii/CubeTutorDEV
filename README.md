@@ -6,7 +6,7 @@ CubeTutor is an engaging Python program designed to bring the legendary Rubik's 
 
 🔹 🔎 **Immersive 3D Experience:** Explore the Rubik's Cube in an immersive 3D space, allowing you to inspect the cube from every angle.
 <div align="center">
-  <img width="649" height="480" src="https://github.com/aepii/CubeTutor/assets/68669356/82954ee1-bf25-405e-a6dd-3048fd6fe796">
+  <img width="640" height="480" src="https://github.com/aepii/CubeTutor/assets/68669356/82954ee1-bf25-405e-a6dd-3048fd6fe796">
   
 </div>
 
@@ -164,7 +164,7 @@ Renders the Rubik's Cube in 3D using Matplotlib.
 ## Usage Example:
 
 <div align="center">
-  <img width="649" height="480" src="https://github.com/aepii/CubeTutor/assets/68669356/f0266268-1fa2-4f22-8972-32cd06908fae">
+  <img width="640" height="480" src="https://github.com/aepii/CubeTutor/assets/68669356/f0266268-1fa2-4f22-8972-32cd06908fae">
   
 </div>
 
