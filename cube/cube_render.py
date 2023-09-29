@@ -4,18 +4,22 @@ import numpy as np
 
 class CubeRender:
 
-    def __init__(self):
+    def __init__(self, cube):
 
+        self.cube = cube
         self.faces = []
         self.face_map = {'g': [3, -2, -1], 'b': [0, -2, -1], 'o': [-2, 0, -1], 'r': [-2, 3, -1], 'w': [-1, -2, 3],
                          'y': [-1, -2, 0]}
 
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(111, projection='3d')
-        self.ax.view_init(elev=30, azim=45)
-        plt.title(label="3D Render", loc="center", fontstyle='normal')
-        plt.suptitle('Subtitle', fontstyle='italic')
-        self.ax.text2D(0.05, 0.95, '0 moves', transform=self.ax.transAxes, fontstyle='italic', color='grey')
+        self.ax.view_init(elev=15, azim=45)
+
+        plt.title(label=f'Cube Object: {id(self.cube)}', fontstyle='normal', horizontalalignment='center')
+        plt.suptitle(f'3D Render', fontstyle='italic', horizontalalignment='center')
+        self.ax.text2D(0.5, 0.95, f'Moves: {self.cube.history}', transform=self.ax.transAxes,
+                       horizontalalignment='center',
+                       verticalalignment='center')
 
     def render(self):
 
@@ -37,34 +41,45 @@ class CubeRender:
 
         map = self.face_map[color]
         face = []
+
+        count = 0
         for i in range(0, 3):
             for j in range(0, 3):
+                count += 1
                 x = self.generate_point(map[0], [i, j])
                 y = self.generate_point(map[1], [i, j])
                 z = self.generate_point(map[2], [i, j])
 
-                face.append([x, y, z, self.get_color(x, y, z)])
+                face.append([x, y, z, self.get_color(x, y, z, count)])
                 print("Point: ", x, y, z)
 
         self.faces.append(face)
 
-    @staticmethod
-    def get_color(x, y, z):
+    def get_color(self, x, y, z, count):
+
+        value_to_color = {
+            0: "g",
+            1: "b",
+            2: "#FFA500",
+            3: "r",
+            4: "w",
+            5: "y"
+        }
 
         if np.array_equal(x, [[3]]):  # Front Face
-            color = 'g'
+            color = value_to_color[self.cube.getFront()[2 - (count - 1) // 3][(count - 1) % 3]]
         elif np.array_equal(x, [[0]]):
-            color = 'b'
+            color = value_to_color[self.cube.getBack()[2 - (count - 1) // 3][(9 - count) % 3]]
         elif np.array_equal(y, [[0]]):
-            color = '#FFA500'
+            color = value_to_color[self.cube.getLeft()[2 - (count - 1) // 3][(count - 1) % 3]]
         elif np.array_equal(y, [[3]]):
-            color = 'r'
+            color = value_to_color[self.cube.getRight()[2 - (count - 1) // 3][(9 - count) % 3]]
         elif np.array_equal(z, [[3]]):
-            color = 'w'
+            color = value_to_color[self.cube.getUpper()[(count - 1) // 3][(count - 1) % 3]]
         elif np.array_equal(z, [[0]]):
-            color = 'y'
+            color = value_to_color[self.cube.getLower()[2 - (count - 1) // 3][(count - 1) % 3]]
         else:
-            color = 'w'
+            color = 'k'
 
         return color
 
