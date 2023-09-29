@@ -1,7 +1,7 @@
 # CubeTutor
 
-### [README](-readme)
-### [DOCUMENTATION](-documentation)
+### [README](#readme)
+### [DOCUMENTATION](#documentation-1)
 
 ### Welcome to CubeTutor: Your Interactive Rubik's Cube Learning Companion! 🎲✨
 
