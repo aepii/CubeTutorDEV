@@ -16,4 +16,4 @@ CubeTutor is an engaging Python program designed to bring the legendary Rubik's 
 
 🔹 🔍 Algorithm Suggestions at Your Fingertips: CubeTutor gets even smarter! By scanning specific PLL (Permutation of the Last Layer) or OLL (Orientation of the Last Layer) configurations, CubeTutor will tap into its extensive database. It will then fetch and present you with a curated selection of algorithms sourced from leading cube algorithm websites. These algorithms will be tailored to your current cube state, providing you with multiple solving options.
 
-### CubeTutor is not just a tutor; it's your personal Rubik's Cube mentor, continuously evolving to provide you with the best learning and solving experience possible. Stay tuned for these exciting updates, making your cube-solving journey more interactive and educational than ever! 🌟🧩
+*CubeTutor is not just a tutor; it's your personal Rubik's Cube mentor, continuously evolving to provide you with the best learning and solving experience possible.* 🌟🧩
