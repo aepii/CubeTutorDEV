@@ -4,36 +4,62 @@ import numpy as np
 
 class CubeMoves:
     def __init__(self):
-        self.history = deque()
+        """
+            Initializes a CubeMoves object with an empty deque to store moves.
+        """
         self.moves = deque()
 
     def add_moves(self, moves):
+        """
+            Adds moves to the deque. Parses input string to handle multiple moves.
 
+            Args:
+            - moves (str): A string representing the moves. Can include space-separated moves.
+
+            Returns:
+            The CubeMoves object for method chaining.
+        """
         if " " in moves:
             moves_list = moves.split(" ")
-
             for move in moves_list:
                 self.moves.append(move)
         else:
             self.moves.append(moves)
-
         return self
 
     def execute_moves(self, cube, solve=True):
+        """
+            Executes the moves on the provided Cube object.
 
+            Args:
+            - cube (Cube): The Cube object on which moves will be executed.
+            - solve (bool): If True, executes moves until the deque is empty, else executes a single move.
+
+            Returns:
+            None
+        """
         if solve is True:
             while self.moves:
                 move = self.moves.popleft()
                 self._perform_move(cube, move)
-                self.history.append(move)
-
+                cube.history.append(move)
         else:
             if self.moves:
                 move = self.moves.popleft()
                 self._perform_move(cube, move)
-                self.history.append(move)
+                cube.history.append(move)
 
     def _perform_move(self, cube, move):
+        """
+            Performs a single move on the provided Cube object.
+
+            Args:
+            - cube (Cube): The Cube object on which the move will be performed.
+            - move (str): The move to be executed.
+
+            Returns:
+            None
+        """
         faces = ['F', 'B', 'L', 'R', 'U', 'D']
         face = move[0]
 
@@ -52,8 +78,21 @@ class CubeMoves:
 
     @staticmethod
     def _rotate_cube(cube, face, clockwise=True, double=False):
+        """
+            Rotates the cube's face either clockwise, counterclockwise, or 180 degrees based on input parameters.
+
+            Args:
+            - cube (Cube): The Cube object on which the rotation will be performed.
+            - face (str): The face of the cube to be rotated.
+            - clockwise (bool): If True, rotates the face clockwise. If False, rotates counterclockwise.
+            - double (bool): If True, rotates the face by 180 degrees.
+
+            Returns:
+            None
+        """
 
         if clockwise is True and double is False:
+
             if face == "U":
 
                 front_prev = cube.Front.copy()
@@ -99,6 +138,7 @@ class CubeMoves:
                 cube.Upper[:, 2] = front_prev[:, 2]
 
             elif face == "F":
+
                 upper_prev = cube.Upper.copy()
 
                 cube.Front = np.rot90(cube.Front, 1, (1, 0))
@@ -118,7 +158,9 @@ class CubeMoves:
                 cube.Right[:, 2] = cube.Lower[2, ::-1]
                 cube.Lower[2] = cube.Left[:, 0]
                 cube.Left[:, 0] = upper_prev[0, ::-1]
+
         elif double is True:
+
             if face == "U":
 
                 front_prev = cube.Front.copy()
@@ -130,6 +172,7 @@ class CubeMoves:
                 cube.Right[0] = cube.Left[0]
                 cube.Back[0] = front_prev[0]
                 cube.Left[0] = right_prev[0]
+
             elif face == "D":
 
                 front_prev = cube.Front.copy()
@@ -189,7 +232,9 @@ class CubeMoves:
                 cube.Left[:, 0] = cube.Right[::-1, 2]
                 cube.Lower[2] = upper_prev[0, ::-1]
                 cube.Right[:, 2] = left_prev[::-1, 0]
+
         elif clockwise is False and double is False:
+
             if face == "U":
 
                 front_prev = cube.Front.copy()
