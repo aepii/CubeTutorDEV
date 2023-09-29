@@ -6,14 +6,12 @@ CubeTutor is an engaging Python program designed to bring the legendary Rubik's 
 
 🔹 🔎 **Immersive 3D Experience:** Explore the Rubik's Cube in an immersive 3D space, allowing you to inspect the cube from every angle.
 <div align="center">
-  <img width="640" height="480" src="https://github.com/aepii/CubeTutor/assets/68669356/82954ee1-bf25-405e-a6dd-3048fd6fe796">
-  
+  <img width="649" height="480" src="https://github.com/aepii/CubeTutor/assets/68669356/82954ee1-bf25-405e-a6dd-3048fd6fe796">
 </div>
 
 🔹 🔄 **Customizable Moves:** Input your move sequences and watch as the cube dynamically responds, providing visual feedback for your algorithm experiments.
 <div align="center">
   <img width="640" height="480" src="https://github.com/aepii/CubeTutor/assets/68669356/fab969f2-9609-4a7e-a537-46d40e7ff9cd">
-  
 </div>
 
 ## Future Enhancements:
@@ -40,14 +38,18 @@ The `Cube` class represents a Rubik's Cube. Each face of the cube is represented
 - Lower (D): Yellow (5)
 
 **Example: Front Face**
-`[['0' '0' '0']
- ['0' '0' '0']
- ['0' '0' '0']]`
+```
+[['0' '0' '0']
+['0' '0' '0']
+['0' '0' '0']]
+```
 
 **Example: Scrambled Back Face**
-`[['1' '3' '4']
- ['5' '1' '5']
- ['3' '2' '0']]`
+```
+[['1' '3' '4']
+['5' '1' '5']
+['3' '2' '0']]
+```
 
 ## CubeBuilder Class
 
@@ -65,7 +67,6 @@ Initializes a `CubeBuilder` object.
 
 - **Parameters:**
   - `default` (optional): If True, initializes the `CubeBuilder` with default face configurations. Defaults to False.
-
 
 ## CubeMoves Class
 
@@ -164,8 +165,7 @@ Renders the Rubik's Cube in 3D using Matplotlib.
 ## Usage Example:
 
 <div align="center">
-  <img width="640" height="480" src="https://github.com/aepii/CubeTutor/assets/68669356/f0266268-1fa2-4f22-8972-32cd06908fae">
-  
+  <img width="649" height="480" src="https://github.com/aepii/CubeTutor/assets/68669356/f0266268-1fa2-4f22-8972-32cd06908fae">
 </div>
 
 ```python
@@ -180,8 +180,6 @@ moves.execute_moves(myCube.Cube)
 
 render = CubeRender(myCube.Cube)
 render.render()
-```
 
 
-       
 
