@@ -1,10 +1,14 @@
-from cube_modules.app import Application
-
-
-def main():
-    application = Application()
-    application.run()
+from PyQt5 import QtWidgets
+from gui import TopLevelWindow
 
 
 if __name__ == "__main__":
-    main()
+
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    window = TopLevelWindow()
+    window.show()
+
+    sys.exit(app.exec_())
+
