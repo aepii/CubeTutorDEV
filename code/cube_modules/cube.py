@@ -1,4 +1,5 @@
 import numpy as np
+from .cube_moves import CubeMoves
 
 
 class Cube:
@@ -20,6 +21,7 @@ class Cube:
         The center value (x in the matrix) represents the solved color of the face, with an entry ranging from 0 to 5.
         The * represents entries ranging from 0 to 5 for the remaining elements in the matrix.
     """
+
     def __init__(self):
 
         """
@@ -220,7 +222,7 @@ class CubeBuilder:
         A CubeBuilder object facilitates the construction of a Cube object with customizable face configurations.
     """
 
-    def __init__(self, default=False):
+    def __init__(self, scramble):
 
         """
             Initializes a CubeBuilder object.
@@ -233,13 +235,17 @@ class CubeBuilder:
         """
 
         self.Cube = Cube()
-        if default:
-            self.updateFront() \
-                .updateBack() \
-                .updateLeft() \
-                .updateRight() \
-                .updateUpper() \
-                .updateLower()
+        self.updateFront() \
+            .updateBack() \
+            .updateLeft() \
+            .updateRight() \
+            .updateUpper() \
+            .updateLower()
+
+        if scramble:
+            cubeMoves = CubeMoves()
+            cubeMoves.add_moves(scramble)
+            cubeMoves.execute_moves(self.Cube)
 
     def updateFront(self, entry=None):
         """
@@ -336,4 +342,3 @@ class CubeBuilder:
         else:
             self.Cube.setLower()
         return self
-
