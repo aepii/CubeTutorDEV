@@ -1,87 +1,125 @@
 from .cube import CubeBuilder
 from .cube_moves import CubeMoves
-from .cube_render import CubeRender
+from .cube_renderer import CubeRenderer
 
 
 class Application:
-    def __init__(self):
+    def __init__(self, MplCanvas):
+
         self.data = {
             'cubes': {},
             'move_sequences': {}
         }
 
-    def run(self):
+        self.data['cubes']['Default'] = CubeBuilder(scramble=False)
+        self.cube = 'Default'
+        self.renderer = CubeRenderer(MplCanvas, self.data['cubes'][self.cube].Cube)
+        self.renderer.render()
 
         print("Welcome To Cube Tutor!")
+
+    def run(self):
 
         self._front_end()
 
     def _front_end(self):
-        print("\nCommands:\n1) Create A Cube\n2) Add A Move Sequence\n3) Execute Move "
-              "Sequence\n4) List All Cubes\n5) List All Move Sequences\n6) Color Visualization\n7) Render Cube"
-              "\n8) Exit")
 
-        command = int(input("Enter A Command: "))
+        parse = input("[CubeTutor]: ")
 
-        # Create A Cube
-        if command == 1:
+        try:
+            command, arguments = parse.split(" ", 1)
+        except:
+            command = parse
+            arguments = False
 
-            cube_name = input("Enter A Cube Name: ")
-            cube = CubeBuilder(default=True)
-            self.data['cubes'][cube_name] = cube
+        commands = {
+            "lr", "c", "rn", "ls"
+        }
 
-            return self._front_end()
+        if command in commands:
+            if command == "lr":
+                self._list_current_rendered_cube()
+            elif command == "c":
 
-        # Add A Move Sequence To A Cube
-        elif command == 2:
+                try:
+                    cube_name, move_sequence = arguments.split(" ", 1)
+                except:
+                    cube_name = arguments
+                    move_sequence = False
 
-            print("Valid Moves Are: F, B, L, R, U, D (Valid Suffixes: , 2, ')")
-            move_sequence = input("Enter A Move Sequence: ")
-            cube_name = input("Enter A Cube Name To Match The Move Sequence To: ")
-            moves = CubeMoves().add_moves(move_sequence)
-            self.data['move_sequences'][cube_name] = moves
+                self._create_cube(cube_name, move_sequence)
 
-            return self._front_end()
+            elif command == "rn":
+                self._render_cube(arguments)
 
-        # Execute A Cube's Move Sequences
-        elif command == 3:
+            elif command == "ls":
+                if arguments:
+                    print('yes')
+                    self._list_cubes(arguments)
+                else:
+                    print('no')
+                    self._list_cubes()
+        else:
+            pass
 
-            cube_name = input("Enter A Cube Name: ")
-            self.data['move_sequences'][cube_name].execute_moves(self.data['cubes'][cube_name].Cube)
-            del self.data['move_sequences'][cube_name]
+    def _list_current_rendered_cube(self):
 
-            return self._front_end()
+        print(self.cube, self.renderer.cube.history)
 
-        elif command == 4:
+    def _create_cube(self, cube_name, scramble):
 
-            for cube_name, cube in self.data['cubes'].items():
-                print(f"{cube_name}: {cube.Cube.history}")
+        if scramble is False:
+            cube = CubeBuilder(scramble=False)
+        else:
+            cube = CubeBuilder(scramble)
 
-            return self._front_end()
+        self.data['cubes'][cube_name] = cube
 
-        elif command == 5:
+    def _render_cube(self, cube_name):
+        self.cube = cube_name
+        self.renderer.cube = self.data['cubes'][cube_name].Cube
 
-            for cube_name, moves in self.data['move_sequences'].items():
-                print(f"{cube_name}: {moves.moves}")
+    def _list_cubes(self, cube_name=False):
 
-            return self._front_end()
+        if not cube_name:
+            print(self.data['cubes'])
+        else:
+            print(self.data['cubes'][cube_name].Cube.history)
 
-        elif command == 6:
+"""
+Create Cube
+-c {cube_Name} {move_Sequence}
 
-            cube_name = input("Enter A Cube Name: ")
-            print(self.data['cubes'][cube_name].Cube.color_visualization())
+List All Cubes
 
-            return self._front_end()
+-ls 
 
-        # Render The Cube
-        elif command == 7:
+List Specific Cube
 
-            cube_name = input("Enter A Cube Name To Render: ")
-            newRender = CubeRender(self.data['cubes'][cube_name].Cube)
+-ls {cube_Name}
 
-            newRender.render()
+Create Move Sequence
 
-            return self._front_end()
+-cm {sequence_Name} {move_Sequence} 
 
-        elif command == 8:
-            print('Exiting')
+Execute Move Sequence 
+
+-ex {cube_Name} {sequence_Name/move_Sequence}
+
+Render Cube
+
+-rn {cube_Name}
+
+Remove Cube
+
+-rc {cube_Name}
+
+Remove Move Sequence
+
+-rm {sequence_Name}
+
+List Current Rendered Cube
+-lr 
+
+
+"""
