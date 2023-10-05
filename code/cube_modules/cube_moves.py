@@ -82,7 +82,7 @@ class CubeMoves:
             Rotates the cube_modules's face either clockwise, counterclockwise, or 180 degrees based on input parameters.
 
             Args:
-            - cube_modules (Cube): The Cube object on which the rotation will be performed.
+            - cube (Cube): The Cube object on which the rotation will be performed.
             - face (str): The face of the cube_modules to be rotated.
             - clockwise (bool): If True, rotates the face clockwise. If False, rotates counterclockwise.
             - double (bool): If True, rotates the face by 180 degrees.
