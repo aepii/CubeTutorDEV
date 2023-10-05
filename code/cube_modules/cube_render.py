@@ -1,13 +1,13 @@
-import matplotlib.pyplot as plt
 import numpy as np
 
 
-class CubeRender:
+class CubeRenderer:
     """
         A class for rendering a 3D Rubik's Cube using Matplotlib.
     """
 
-    def __init__(self, cube):
+    def __init__(self, MplCanvas, cube=None):
+
         """
             Initializes the CubeRender object.
 
@@ -16,8 +16,11 @@ class CubeRender:
         """
         self.cube = cube
         self.faces = []
+        self.MplCanvas = MplCanvas
 
-        # Mapping of face names to indicators for generating 3D coordinates of Rubik's Cube facelets.
+        self.move_history = self.MplCanvas.ax.text2D(0.5, 0.95, f'Moves: {" ".join(self.cube.history)}',
+                                                     transform=self.MplCanvas.ax.transAxes,
+                                                     horizontalalignment='center', verticalalignment='center')
         """
             Values: 
             - 0 and 3: Represents a constant coordinate value of [[0]] or [[3]] respectively.
@@ -27,24 +30,14 @@ class CubeRender:
         self.plane_map = {'Front': [3, -2, -1], 'Back': [0, -2, -1], 'Left': [-2, 0, -1],
                           'Right': [-2, 3, -1], 'Upper': [-1, -2, 3], 'Lower': [-1, -2, 0]}
 
-        # Initialize a 3D plot for rendering the cube_modules.
-        self.fig = plt.figure()
-        self.ax = self.fig.add_subplot(111, projection='3d')
-        self.ax.view_init(elev=15, azim=45)
-
-        # Set titles for the plot.
-        plt.title(label=f'Cube Object: {id(self.cube)}', fontstyle='normal', horizontalalignment='center')
-        plt.suptitle(f'3D Render', fontstyle='italic', horizontalalignment='center')
-        self.ax.text2D(0.5, 0.95, f'Moves: {" ".join(self.cube.history)}', transform=self.ax.transAxes,
-                       horizontalalignment='center', verticalalignment='center')
-
-        plt.grid(False)
-        plt.axis('off')
+        self.MplCanvas.figure.canvas.draw()
 
     def render(self):
         """
             Renders the Rubik's Cube in 3D using Matplotlib.
         """
+        self.MplCanvas.ax.clear()
+
         # Create planes for the cube_modules.
         for face in self.plane_map.keys():
             self._create_plane(face)
@@ -52,21 +45,22 @@ class CubeRender:
         # Plot the surfaces of the cube_modules faces.
         for face in self.faces:
             for facelet in face:
-                self.ax.plot_surface(facelet[0], facelet[1], facelet[2], color=facelet[3], linewidth=1,
-                                     edgecolors='black', shade=False)
+                self.MplCanvas.ax.plot_surface(facelet[0], facelet[1], facelet[2], color=facelet[3], linewidth=3,
+                                               edgecolors='black', shade=False)
 
-        # Set up the dimensions of the 3D plot.
-        axes = [3, 3, 3]
-        data = np.ones(axes, dtype=bool)
+        self.MplCanvas.ax.set_title(label=f'Cube Object: {id(self.cube)}\n 3D Render', fontstyle='normal',
+                                    horizontalalignment='center')
+        self.move_history = self.MplCanvas.ax.text2D(0.5, 0.95, f'Moves: {" ".join(self.cube.history)}',
+                                                     transform=self.MplCanvas.ax.transAxes,
+                                                     horizontalalignment='center', verticalalignment='center')
+        self.faces = []
 
-        # Display the 3D plot.
-        plt.draw()
-        plt.show()
+        self.MplCanvas.figure.canvas.draw()
 
     @staticmethod
-    def _generate_point(indicator, scope):
+    def _generate_surface(indicator, scope):
         """
-            Generates a 3D point based on the indicator value and the scope of the facelet.
+            Generates a 3D surface based on the indicator value and the scope of the facelet.
 
             Args:
             - indicator: Indicator value for the axis (0, 3, -1, or -2).
@@ -137,9 +131,9 @@ class CubeRender:
         for i in range(0, 3):
             for j in range(0, 3):
                 count += 1
-                x = self._generate_point(plane_map[0], [i, j])
-                y = self._generate_point(plane_map[1], [i, j])
-                z = self._generate_point(plane_map[2], [i, j])
+                x = self._generate_surface(plane_map[0], [i, j])
+                y = self._generate_surface(plane_map[1], [i, j])
+                z = self._generate_surface(plane_map[2], [i, j])
 
                 # Determine the color of the facelet based on its position and count.
                 plane.append([x, y, z, self._get_color(x, y, z, count)])
