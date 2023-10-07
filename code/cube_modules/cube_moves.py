@@ -27,7 +27,7 @@ class CubeMoves:
             self.moves.append(moves)
         return self
 
-    def execute_moves(self, cube, solve=True):
+    def execute_moves(self, cube, copy=False):
         """
             Executes the moves on the provided Cube object.
 
@@ -38,14 +38,15 @@ class CubeMoves:
             Returns:
             None
         """
-        if solve is True:
+        if copy is False:
             while self.moves:
                 move = self.moves.popleft()
                 self._perform_move(cube, move)
                 cube.history.append(move)
         else:
-            if self.moves:
-                move = self.moves.popleft()
+            temp = self.moves.copy()
+            while temp:
+                move = temp.popleft()
                 self._perform_move(cube, move)
                 cube.history.append(move)
 
