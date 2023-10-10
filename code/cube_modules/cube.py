@@ -222,7 +222,7 @@ class CubeBuilder:
         A CubeBuilder object facilitates the construction of a Cube object with customizable face configurations.
     """
 
-    def __init__(self, scramble):
+    def __init__(self, move_sequence=None):
 
         """
             Initializes a CubeBuilder object.
@@ -242,9 +242,9 @@ class CubeBuilder:
             .updateUpper() \
             .updateLower()
 
-        if scramble:
+        if move_sequence:
             cubeMoves = CubeMoves()
-            cubeMoves.add_moves(scramble)
+            cubeMoves.add_moves(move_sequence)
             cubeMoves.execute_moves(self.Cube)
 
     def updateFront(self, entry=None):
