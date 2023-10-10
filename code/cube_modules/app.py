@@ -2,6 +2,8 @@ from .cube import CubeBuilder
 from .cube_moves import CubeMoves
 from .cube_renderer import CubeRenderer
 
+from opencv import ScanCube
+
 
 class Application:
     def __init__(self, MplCanvas):
@@ -37,7 +39,11 @@ class Application:
             "cm": self._create_move_sequence,
             "ls": self._list_cubes,
             "lm": self._list_move_sequence,
-            "ex": self._execute_move_sequence
+            "ex": self._execute_move_sequence,
+            "rc": self._remove_cube,
+            "rm": self._remove_move_sequence,
+            "help": self._help,
+            "sc": self._scan_cube
         }
 
         if command in command_map:
@@ -111,10 +117,11 @@ class Application:
         -ls {o/cube_name}
         """
         if arguments:
-            if self.data['cubes'].get(arguments):
-                print(self.data['cubes'][arguments].Cube)
-            else:
+            cube_name = arguments
+            if cube_name not in self.data['cubes']:
                 print(f"Cube '{arguments}' does not exist.")
+            else:
+                print(self.data['cubes'][arguments].Cube)
         else:
             print(self.data['cubes'])
 
@@ -146,7 +153,8 @@ class Application:
                     print(f"Cube '{cube_name}' does not exist.")
                 elif move_sequence in self.data['move_sequences']:
                     # Execute the predefined move sequence
-                    self.data['move_sequences'][move_sequence].execute_moves(self.data['cubes'][cube_name].Cube, copy=True)
+                    self.data['move_sequences'][move_sequence].execute_moves(self.data['cubes'][cube_name].Cube,
+                                                                             copy=True)
                 else:
                     # Execute the custom move sequence
                     moves = CubeMoves().add_moves(move_sequence)
@@ -154,5 +162,41 @@ class Application:
         else:
             print("Invalid input format. Usage: ex {cube_name} {sequence_name/move_sequence}")
 
+    def _remove_cube(self, arguments=None):
 
+        if arguments:
+            cube_name = arguments
+            if cube_name not in self.data['cubes']:
+                print(f"Cube '{cube_name}' does not exist.")
+            else:
+                self.cube = cube_name
+                del self.data['cubes'][cube_name]
+        else:
+            print("Cube name is missing. Usage: rc {cube_name}")
 
+    def _remove_move_sequence(self, arguments=None):
+
+        if arguments:
+            sequence_name = arguments
+            if sequence_name not in self.data['move_sequences']:
+                print(f"Sequence '{arguments}' does not exist.")
+            else:
+                del self.data['move_sequences'][arguments]
+        else:
+            print("Move sequence is missing. Usage: rm {sequence_name}")
+
+    def _help(self, arguments=None):
+        print("Create Cube | c {cube_name} {(optional) move_sequence}\n"
+              "Create Move Sequence | cm {sequence_name} {move_sequence}\n"
+              "Execute Move Sequence | ex {cube_name} {sequence_name or move_sequence}\n"
+              "List Cube(s) | ls {(optional) cube_name}\n"
+              "List Move Sequence(s) | lm {(optional) sequence_name}\n"
+              "Remove Cube | rm {cube_name}\n"
+              "Remove Move Sequence | rc {sequence_name}\n"
+              "Render Cube | rn {cube_name}\n"
+              "List Current Rendered Cube | lr\n"
+              "Scan Cube | sc")
+
+    def _scan_cube(self, arguments=None):
+        print("Press ESC to exit.")
+        ScanCube.show_webcam()
