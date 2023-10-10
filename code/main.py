@@ -10,5 +10,4 @@ if __name__ == "__main__":
     window = TopLevelWindow()
     window.show()
 
-    sys.exit(app.exec_())
-
+    app.exec_()
