@@ -45,7 +45,7 @@ class CubeRenderer:
         # Plot the surfaces of the cube_modules faces.
         for face in self.faces:
             for facelet in face:
-                self.MplCanvas.ax.plot_surface(facelet[0], facelet[1], facelet[2], color=facelet[3], linewidth=3,
+                self.MplCanvas.ax.plot_surface(facelet[0], facelet[1], facelet[2], color=facelet[3], linewidth=2.5,
                                                edgecolors='black', shade=False)
 
         self.MplCanvas.ax.set_title(label=f'Cube Object: {id(self.cube)}\n 3D Render', fontstyle='normal',
