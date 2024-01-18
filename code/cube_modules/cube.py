@@ -196,7 +196,8 @@ class Cube:
             2: "Orange",
             3: "Red",
             4: "White",
-            5: "Yellow"
+            5: "Yellow",
+            6: "Grey"
         }
 
         faces = {
@@ -222,7 +223,7 @@ class CubeBuilder:
         A CubeBuilder object facilitates the construction of a Cube object with customizable face configurations.
     """
 
-    def __init__(self, move_sequence=None):
+    def __init__(self, move_sequence=None, data_base_build=None):
 
         """
             Initializes a CubeBuilder object.
@@ -246,6 +247,8 @@ class CubeBuilder:
             cubeMoves = CubeMoves()
             cubeMoves.add_moves(move_sequence)
             cubeMoves.execute_moves(self.Cube)
+        elif data_base_build:
+            self.buildFromDataBase(data_base_build)
 
     def updateFront(self, entry=None):
         """
@@ -342,3 +345,22 @@ class CubeBuilder:
         else:
             self.Cube.setLower()
         return self
+
+    def buildFromDataBase(self, colors):
+
+        face_map = {
+            'g': [0, self.updateFront],  # Green
+            'b': [1, self.updateBack],   # Blue
+            'o': [2, self.updateRight],  # Orange
+            'r': [3, self.updateLeft],   # Red
+            'w': [4, self.updateLower],  # White
+            'y': [5, self.updateUpper],  # Yellow
+            'l': [6, self.updateUpper]   # Grey
+        }
+
+        for face_index in range(5):
+            center_piece = colors[4 + (face_index * 9)]
+            update_function = face_map[center_piece][1]
+            facelet_colors = colors[face_index * 9: (face_index + 1) * 9]
+            facelet_indices = [[face_map[color][0] for color in facelet_colors[i:i + 3]] for i in range(0, 9, 3)]
+            update_function(facelet_indices)
