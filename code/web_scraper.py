@@ -2,40 +2,63 @@ import requests
 import json
 from bs4 import BeautifulSoup
 
-def get_data(algorithm_sets):
-    all_algorithms = {}
 
-    for algorithm_set in algorithm_sets:
+class SpeedCubeDB:
 
-        all_algorithms[algorithm_set] = {}
+    def __init__(self):
 
-        url = "https://www.speedcubedb.com/a/3x3/" + algorithm_set
-        res = requests.get(url)
-        soup = BeautifulSoup(res.content, 'html.parser')
+        self.all_algorithms = {}
+        self.file = None
 
-        datas = soup.select('div.singlealgorithm')
+    def write_data(self, algorithm_sets):
 
-        for index, data in enumerate(datas):
+        print("[CubeTutor] Scraping algorithms from SpeedCubeDB.")
 
-            case_algorithms = []
+        for algorithm_set in algorithm_sets:
 
-            case = data.find('h3').text
-            sub_group = data.get('data-subgroup')
+            self.all_algorithms[algorithm_set] = {}
 
-            group_algorithms = data.find_all('li', attrs={'class': 'list-group-item'})
+            url = "https://www.speedcubedb.com/a/3x3/" + algorithm_set
+            res = requests.get(url)
+            soup = BeautifulSoup(res.content, 'html.parser')
 
-            for algorithm in group_algorithms:
-                case_algorithms.append(algorithm.find("div").text)
+            datas = soup.select('div.singlealgorithm')
 
-            all_algorithms[algorithm_set][case] = case_algorithms
+            for index, data in enumerate(datas):
 
-    algorithms_json = json.dumps(all_algorithms, indent=4)
-    print(algorithms_json)
+                case = data.find('h3').text
+                sub_group = data.get('data-subgroup')
 
+                self.all_algorithms[algorithm_set][case] = {}
+                self.all_algorithms[algorithm_set][case]["Sub Group"] = sub_group
 
-def main():
-    get_data(["PLL", "OLL"])
+                group_algorithms = data.find_all('li', attrs={'class': 'list-group-item'})
 
+                for index, algorithm in enumerate(group_algorithms):
+                    self.all_algorithms[algorithm_set][case]["Alg" + str(index + 1)] = algorithm.find("div").text
 
-if __name__ == "__main__":
-    main()
+                if algorithm_set != "F2L":
+                    face_colors = data.find('div', class_='jcube')
+                    data_ub = face_colors['data-ub']
+                    data_uf = face_colors['data-uf']
+                    data_ul = face_colors['data-ul']
+                    data_ur = face_colors['data-ur']
+                    data_us = face_colors['data-us']
+                    combined_face_colors = data_ub + data_uf + data_ul + data_ur + data_us
+                else:
+                    face_colors = data.find('div', class_='icube')
+                    combined_face_colors = face_colors["data-fl"]
+
+                self.all_algorithms[algorithm_set][case]["Colors"] = combined_face_colors
+
+        algorithms_json = json.dumps(self.all_algorithms, indent=4)
+
+        with open("src/algorithms.json", "w") as outfile:
+
+            outfile.write(algorithms_json)
+            self.file = outfile
+            print("[CubeTutor] Finished scraping!")
+
+    def get_data(self, algorithm_set):
+
+        return self.file[algorithm_set]
