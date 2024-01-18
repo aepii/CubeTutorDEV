@@ -3,6 +3,7 @@ from .cube_moves import CubeMoves
 from .cube_renderer import CubeRenderer
 
 from opencv import ScanCube
+import json
 
 
 class Application:
@@ -10,7 +11,8 @@ class Application:
 
         self.data = {
             'cubes': {},
-            'move_sequences': {}
+            'move_sequences': {},
+            'cubes_db': {}
         }
 
         self.data['cubes']['Default'] = CubeBuilder()
@@ -18,7 +20,7 @@ class Application:
         self.renderer = CubeRenderer(MplCanvas, self.data['cubes'][self.cube].Cube)
         self.renderer.render()
 
-        print("Welcome To Cube Tutor!")
+        print("[CubeTutor] Welcome To Cube Tutor!")
 
     def run(self):
 
@@ -43,7 +45,8 @@ class Application:
             "rc": self._remove_cube,
             "rm": self._remove_move_sequence,
             "help": self._help,
-            "sc": self._scan_cube
+            "sc": self._scan_cube,
+            "rdb": self._render_cube_from_data_base
         }
 
         if command in command_map:
@@ -56,6 +59,7 @@ class Application:
         print(self.cube, self.renderer.cube.history)
 
     def _create_cube(self, arguments):
+
         """
         Create Cube
         -c {cube_name} {o/move_sequence}
@@ -184,6 +188,50 @@ class Application:
                 del self.data['move_sequences'][arguments]
         else:
             print("Move sequence is missing. Usage: rm {sequence_name}")
+
+    def _create_cube_from_data_base(self, arguments=None):
+
+        args = arguments.split(" ", 1)
+        algorithm_set = args[0] if len(args) > 0 else None
+        algorithm_name = args[1] if len(args) > 1 else None
+
+        with open("src/algorithms.json", "r") as file:
+            json_object = json.load(file)
+
+            if algorithm_set not in json_object:
+                print(f"Algorithm set '{algorithm_set}' does not exist.")
+            elif algorithm_name not in json_object[algorithm_set]:
+                print(f"Algorithm name '{algorithm_name}' does not exist.")
+            else:
+                if algorithm_set not in self.data['cubes_db']:
+                    self.data['cubes_db'][algorithm_set] = {}
+
+                cube = CubeBuilder(data_base_build=json_object[algorithm_set][algorithm_name]["Colors"])
+                self.data['cubes_db'][algorithm_set][algorithm_name] = cube
+
+                return True
+
+    def _render_cube_from_data_base(self, arguments=None):
+        """
+        Render Cube
+        -rdb {algorithm_set} {algorithm_name}
+        """
+        if arguments:
+
+            args = arguments.split(" ", 1)
+            algorithm_set = args[0] if len(args) > 0 else None
+            algorithm_name = args[1] if len(args) > 1 else None
+
+            if len(args) < 2:
+                print("Invalid input format. Usage: rdb {algorithm_set} {algorithm_name}")
+
+            else:
+
+                if self._create_cube_from_data_base(arguments):
+                    self.cube = algorithm_name
+                    self.renderer.cube = self.data['cubes_db'][algorithm_set][algorithm_name].Cube
+        else:
+            print("Invalid input format. Usage: rdb {algorithm_set} {algorithm_name}")
 
     def _help(self, arguments=None):
         print("Create Cube | c {cube_name} {(optional) move_sequence}\n"
