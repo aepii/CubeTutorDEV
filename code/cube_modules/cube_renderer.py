@@ -95,7 +95,8 @@ class CubeRenderer:
             2: "#FFA500",  # Orange
             3: "r",  # Red
             4: "w",  # White
-            5: "y"  # Yellow
+            5: "y",  # Yellow
+            6: '#808080' # Grey
         }
 
         # Determine the color based on the facelet's position.
